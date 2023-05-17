@@ -20,11 +20,36 @@ gasMatrix = np.array([[5, 70, 80],
 class TestSolution():
     def __init__(self, array):
         self.array = array
-        self.fitness = fitnessFunction(testMatrix, self.array)
+        self.fitness = fitnessFunction(testMatrix,  self.array, self.printArray)
         self.printArray = array
 
+#### 這是初始計算fitness的method
+# def fitnessFunction(distanceMatrix, solutionArray):  # 計算fitness的method
+#     total_distance = 0
+#     waylist = [x - 1 for x in solutionArray]
+#     for i in range(len(waylist)):
+#         current_city = waylist[i]
+#         if i == len(solutionArray) - 1:  # 若跑到最後一個點了
+#             break
+#         next_city = waylist[i + 1]
+#         total_distance += distanceMatrix[current_city][next_city]
+#     return total_distance
 
-def fitnessFunction(distanceMatrix, solutionArray):  # 計算fitness的method
+def findGasStationnnnn(current_city, next_city, gasMatrix):
+
+    print(f"current_city= {current_city}, next_city= {next_city}")
+    distance = 0
+    current_city_to_min_gas = np.min(gasMatrix[current_city])
+    min_gas_index = np.argmin(gasMatrix[current_city])
+    gas_to_next_city = gasMatrix[next_city][min_gas_index]
+    distance += current_city_to_min_gas
+    distance += gas_to_next_city
+    print(distance)
+    return distance
+
+
+
+def fitnessFunction(distanceMatrix,  solutionArray, printArray):  # 計算fitness的method
     total_distance = 0
     waylist = [x - 1 for x in solutionArray]
     for i in range(len(waylist)):
@@ -33,11 +58,19 @@ def fitnessFunction(distanceMatrix, solutionArray):  # 計算fitness的method
             break
         next_city = waylist[i + 1]
         total_distance += distanceMatrix[current_city][next_city]
+        if total_distance >= 20:
+            print(f"cuz total_distance >=20，so need to gas station")
+            gas_distance = findGasStationnnnn(current_city, next_city, gasMatrix)
+            total_distance += gas_distance
+            total_distance == 0
+            printArray.insert(i,"gas station")
+            print(printArray)
     return total_distance
 
 
 def findGasStation(current_city, next_city):
     return 0
+
 
 
 def getNewArray(distanceMatrix):  # 找到一個新的解
@@ -85,6 +118,7 @@ testArray = [1, 3, 2, 4, 1]
 TestArray = TestSolution([1, 3, 2, 4, 1])
 print(TestArray.array)
 print(TestArray.fitness)
+print(TestArray.printArray)
 
 current_city = testArray[2] -1
 next_city = testArray[3] -1
@@ -98,18 +132,6 @@ print(f"gas_to_next_city= {gas_to_next_city}")
 print(f"distance= {current_city_to_min_gas + gas_to_next_city}")
 print(f"====================")
 
-def findGasStationnnnn(current_city, next_city, gasMatrix):
-    current_city -= 1
-    next_city -= 1
-    print(f"current_city= {current_city}, next_city= {next_city}")
-    distance = 0
-    current_city_to_min_gas = np.min(gasMatrix[current_city])
-    min_gas_index = np.argmin(gasMatrix[current_city])
-    gas_to_next_city = gasMatrix[next_city][min_gas_index]
-    distance += current_city_to_min_gas
-    distance += gas_to_next_city
-    print(distance)
-    return distance
 
 
 gas_dis = findGasStationnnnn(testArray[2],testArray[3],gasMatrix)
