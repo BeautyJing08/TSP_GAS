@@ -42,10 +42,17 @@ def findGasStation(current_city, next_city):
 
 def getNewArray(distanceMatrix):  # 找到一個新的解
     distanceMatrixRowNum = distanceMatrix.shape[0]
+
+#     line43~line46 : 下次遇到同樣使用情境時 可以嘗試下面兩種寫法
+#     array = [i for i in range(distanceMatrixRowNum)][1:] # 1
+#     array = list(range(distanceMatrixRowNum))[1:] # 2
+    
     array = []
     for i in range(distanceMatrixRowNum):  # 若這個matrix是3*3 num==3, range(3)= [0,1,2]
         array.append(i)  # [0,1,2]依序插入到array內
     array = array[1:]  # 把第一個值，也就是0刪掉 #因為我們的頭尾規定都是 0，所以先把第一位數拿掉
+
+
     random.shuffle(array)  # 打亂這個array #打亂這裡面的排列
     array.insert(0, 0)  # 在第0位，插入數字 0
     array.append(0)  # 在最後一位插入數字 0
@@ -62,6 +69,13 @@ def getNeighborArray(array):
     pos2 = random.randint(0, len(newArray) - 1)  # 隨機取一位
     if pos1 == pos2:  # 若這麼碰巧的pos1 == pos2 ((會變成新的newArray沒有更新))，所以重新執行這個method
         return getNeighborArray(array)  # 重新執行
+#     這邊不一定要用遞迴的方式,有時候遞迴如果每次都碰巧的pos1 == pos2 那效能就會變差了QQ
+#     試試下面的寫法
+#     打亂newArray的index陣列, 取前兩個, 可以做到只做一次並且不重複
+#     random.shuffle(list(range(len(newArray))))
+#     pos1 = newArray[0]
+#     pos2 = newArray[1]
+    
     newArray[pos1], newArray[pos2] = newArray[pos2], newArray[pos1]  # 把這兩個位置交換
     newArray.insert(0, 0)  # 在第一位插入0
     newArray.append(0)  # 最後一位插入0
