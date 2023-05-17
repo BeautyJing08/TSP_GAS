@@ -16,6 +16,13 @@ gasMartix = np.array([[5, 70, 80],
                       [36, 89, 15],
                       [11, 22, 33]])
 
+class TestSolution():
+    def __init__(self,array):
+        self.array = array
+        self.fitness = fitnessFunction(testMatrix,self.array)
+        self.printArray = array
+
+
 
 def fitnessFunction(distanceMatrix, solutionArray):  # 計算fitness的method
     total_distance = 0
@@ -43,7 +50,7 @@ def getNewArray(distanceMatrix):  # 找到一個新的解
     array.insert(0, 0)  # 在第0位，插入數字 0
     array.append(0)  # 在最後一位插入數字 0
     array = [x + 1 for x in array]  # 把array中的值都加一 if array=[0,1,2] ---> 變成 [1,2,3]
-    return array
+    return TestSolution(array)
 
 
 def getNeighborArray(array):
@@ -59,8 +66,12 @@ def getNeighborArray(array):
     newArray.insert(0, 0)  # 在第一位插入0
     newArray.append(0)  # 最後一位插入0
     newArray = [x + 1 for x in newArray]  # 最後把這個array的值都+1
-    return newArray
+    return TestSolution(newArray)
 
+
+
+
+# ==============================================================================================
 
 testMatrix = np.array([[0, 5, 10, 12],
                        [5, 0, 8, 15],
@@ -68,20 +79,25 @@ testMatrix = np.array([[0, 5, 10, 12],
                        [12, 15, 18, 0]])
 
 testArray = [1, 3, 2, 4, 1]
-testMatrixFitness = fitnessFunction(testMatrix, testArray)
-print(f"testArray= {testArray} , testMatrixFitness= {testMatrixFitness}")
-
-newarray = getNewArray(testMatrix)
-# print(newarray)
-
-newarrayFitness = fitnessFunction(testMatrix, newarray)
-# print(newarrayFitness)
-print(f"newarray= {newarray} , newarrayFitness= {newarrayFitness}")
-
-AAarray = getNeighborArray(newarray)
-AAarrayFitness = fitnessFunction(testMatrix, AAarray)
-
-# print(f"AAarray= {AAarray}")
+TestArray = TestSolution([1,3,2,4,1])
+print(TestArray.array)
+print(TestArray.fitness)
 
 
-print(f"AAarray= {AAarray} , AAarrayFitness= {AAarrayFitness}")
+# testMatrixFitness = fitnessFunction(testMatrix, testArray)
+# print(f"testArray= {testArray} , testMatrixFitness= {testMatrixFitness}")
+#
+# newarray = getNewArray(testMatrix)
+# # print(newarray)
+#
+# newarrayFitness = fitnessFunction(testMatrix, newarray)
+# # print(newarrayFitness)
+# print(f"newarray= {newarray} , newarrayFitness= {newarrayFitness}")
+#
+# AAarray = getNeighborArray(newarray)
+# AAarrayFitness = fitnessFunction(testMatrix, AAarray)
+#
+# # print(f"AAarray= {AAarray}")
+#
+#
+# print(f"AAarray= {AAarray} , AAarrayFitness= {AAarrayFitness}")
