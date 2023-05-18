@@ -124,7 +124,8 @@ print(f"TestArray.printArray= {TestArray.printArray}, TestArray.fitness= {TestAr
 
 
 ABCArray = getNewArray(testMatrix)
+ABCArrayPrint = ABCArray.copy()
 print(ABCArray)
-ObjABCArray = TestSolution(ABCArray,ABCArray)
+ObjABCArray = TestSolution(ABCArray,ABCArrayPrint)
 print(ABCArray)
-print(f"ObjABCArray.printArray= {ObjABCArray.printArray}, ObjABCArray.fitness= {ObjABCArray.fitness}")
+print(f"ObjABCArray.array= {ObjABCArray.array},ObjABCArray.printArray= {ObjABCArray.printArray}, ObjABCArray.fitness= {ObjABCArray.fitness}")
