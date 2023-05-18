@@ -39,15 +39,17 @@ class TestSolution():
 
 def findGasStationnnnn(current_city, next_city, gasMatrix):
 
-    print(f"current_city= {current_city}, next_city= {next_city}")
+    print(f"now is in findGasStation method, current_city= {current_city}, next_city= {next_city}")
     distance = 0
     current_city_to_min_gas = np.min(gasMatrix[current_city])
     min_gas_index = np.argmin(gasMatrix[current_city])
+    gas_Station_num = min_gas_index + 1
     gas_to_next_city = gasMatrix[next_city][min_gas_index]
+
     distance += current_city_to_min_gas
     distance += gas_to_next_city
-    print(distance)
-    return distance
+    print(f"findGasStation_distance= {distance}")
+    return distance, gas_Station_num
 
 
 
@@ -63,19 +65,21 @@ def fitnessFunction(distanceMatrix,  solutionArray, printArray):  # 計算fitnes
         next_city = waylist[i + 1]
         if total_distance >= 20: #先判斷前一個distance是不是超過 gas distance
             print(f"cuz total_distance >=20，so need to gas station")
-            gas_distance = findGasStationnnnn(current_city, next_city, gasMatrix)
+            gas_distance, gasStationNum = findGasStationnnnn(current_city, next_city, gasMatrix)
             total_distance += gas_distance
             total_distance == 0
-            printArray.insert(i+1,"gas station")
-            print(printArray)
+            printArray.insert(i+1,f"gas station_{gasStationNum}")
+            # print(printArray)
+            break
         print(f"this is in fitness function, now current_city= {current_city}, next_city= {next_city}")
         total_distance += distanceMatrix[current_city][next_city]
-        print(f"this is in fitness function, total_distance= {total_distance}")
+
         #############
         ############
         ################# 這邊要修改 因為結束完這個iteration才知道超過gas distance, 所以
         ######## printArray丟進來的時候沒有被轉換，所以~~~~值不對
-
+    print(f"this is in fitness function, total_distance= {total_distance}")
+    print(f"---fitness method end---")
     return total_distance
 
 
@@ -139,23 +143,27 @@ testMatrix = np.array([[0, 5, 10, 12],
 
 testArray = [1, 3, 2, 4, 1]
 TestArray = TestSolution([1, 3, 2, 4, 1],[1, 3, 2, 4, 1])
-print(TestArray.array)
-print(TestArray.fitness)
-print(TestArray.printArray)
 
-current_city = testArray[2] -1
-next_city = testArray[3] -1
-print(current_city, next_city)
-current_city_to_min_gas = np.min(gasMatrix[current_city])
-print(f"current_city_to_min_gas= {current_city_to_min_gas}")
-min_gas_index = np.argmin(gasMatrix[current_city])
-print(f"min_gas_index= {min_gas_index}")
-gas_to_next_city = gasMatrix[next_city][min_gas_index]
-print(f"gas_to_next_city= {gas_to_next_city}")
-print(f"distance= {current_city_to_min_gas + gas_to_next_city}")
-print(f"====================")
+print(f"TestArray.printArray= {TestArray.printArray}, TestArray.fitness= {TestArray.fitness}")
 
 
+# print(TestArray.array)
+# print(TestArray.fitness)
+# print(TestArray.printArray)
 
-gas_dis = findGasStationnnnn(testArray[2],testArray[3],gasMatrix)
+# current_city = testArray[2] -1
+# next_city = testArray[3] -1
+# print(current_city, next_city)
+# current_city_to_min_gas = np.min(gasMatrix[current_city])
+# print(f"current_city_to_min_gas= {current_city_to_min_gas}")
+# min_gas_index = np.argmin(gasMatrix[current_city])
+# print(f"min_gas_index= {min_gas_index}")
+# gas_to_next_city = gasMatrix[next_city][min_gas_index]
+# print(f"gas_to_next_city= {gas_to_next_city}")
+# print(f"distance= {current_city_to_min_gas + gas_to_next_city}")
+# print(f"====================")
+
+
+
+# gas_dis = findGasStationnnnn(testArray[2],testArray[3],gasMatrix)
 
