@@ -1,4 +1,4 @@
-### 要把溫度&降溫&退火演算寫出來
+###
 import random
 import math
 import numpy as np
