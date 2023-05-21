@@ -1,4 +1,4 @@
-###
+### 0521 把圖畫出來，但是低溫要是0.5 整體趨勢看起來才是對的 ##
 import random
 import math
 import numpy as np
