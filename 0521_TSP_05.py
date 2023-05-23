@@ -21,8 +21,8 @@ gasMatrix = np.array([[5, 70, 80],
 ### 創建解Class
 class TestSolution():
     def __init__(self, array, printArray):
-        self.array = array
-        self.printArray = printArray
+        self.array = array.copy()
+        self.printArray = printArray.copy()
         self.fitness = fitnessFunction(distanceMatrix, self.array, self.printArray)
 
 
@@ -60,7 +60,7 @@ def fitnessFunction(distanceMatrix, solutionArray, printArray):  # 計算fitness
     waylist = [x - 1 for x in solutionArray]
     for i in range(len(waylist)):
         current_city = waylist[i]
-        if i == len(solutionArray) - 1:  # 若跑到最後一個點了
+        if i == len(waylist) - 1:  # 若跑到最後一個點了
             break
         next_city = waylist[i + 1]
         if fillUp_distance >= 20:  # 先判斷前一個distance是不是超過 gas distance
@@ -120,6 +120,7 @@ def SimulatedAnnealing(distanceMatrix, temperature):  # 要把 workMatrix & 溫�
     initPrintArray = initArray.copy()
     # print(initArray)
     testArray = TestSolution(initArray, initPrintArray)
+    print(f"initArray= {initArray}, initPrintArray= {initPrintArray}")
     print(f"第{iterationNum}代，array= {testArray.array},PrintArray= {testArray.printArray}, fitness= {testArray.fitness}, temperature= {temperature.temp:.2f} ")
     gBestArray = testArray  # 同時創造一個新的gBestArray來記錄
 
