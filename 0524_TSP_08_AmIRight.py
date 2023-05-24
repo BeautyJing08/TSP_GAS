@@ -45,7 +45,7 @@ class Temperature():
 
 ## 設定降溫method
 def SlowCooling(temperature, iterationNum):  # 降溫方法
-    FireReductionRadio = 0.999 # 溫度下降的比例
+    FireReductionRadio = 0.99 # 溫度下降的比例
     temperature.temp = temperature.initialtemp * (FireReductionRadio ** iterationNum)
     return temperature
 
