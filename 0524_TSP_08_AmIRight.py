@@ -45,7 +45,7 @@ class Temperature():
 
 ## 設定降溫method
 def SlowCooling(temperature, iterationNum):  # 降溫方法
-    FireReductionRadio = 0.99 # 溫度下降的比例
+    FireReductionRadio = 0.999 # 溫度下降的比例
     temperature.temp = temperature.initialtemp * (FireReductionRadio ** iterationNum)
     return temperature
 
@@ -136,7 +136,7 @@ def SimulatedAnnealing(distanceMatrix, temperature):  # 要把 workMatrix & 溫�
     testArrayList.append(testArray)
     gBestList.append(gBestArray)
     #### 執行後續演算 ####
-    while iterationNum < 20000:  ##在溫度沒有低到"低溫標準"，都繼續執行計算
+    while temperature.temp > temperature.tempMin:  ##在溫度沒有低到"低溫標準"，都繼續執行計算
         print(temperature.temp)
         iterationNum += 1
         tmpTestArray = getNeighborArray(testArray.array)  ##創建一個tmpTestArray ((從獲得鄰近解method創建
@@ -144,8 +144,8 @@ def SimulatedAnnealing(distanceMatrix, temperature):  # 要把 workMatrix & 溫�
         ### 第一個情況，新的解比舊的解好 ### ((要找到比較小的答案))
         if tmpTestArray.fitness < testArray.fitness:
             testArray = tmpTestArray  # 讓tmp取代test
-            if iterationNum % 3 == 0:
-                temperature = SlowCooling(temperature, iterationNum)  # 每個iteration就降溫一次
+            # if iterationNum % 3 == 0:
+            temperature = SlowCooling(temperature, iterationNum)  # 每個iteration就降溫一次
             print(f"第{iterationNum}代，array= {testArray.array},PrintArray= {testArray.printArray}, fitness= {testArray.fitness}, temperature= {temperature.temp:.2f} ")
             ### 若tmpTest > gBest 就要把索引值存到 gBestChangeIndexList
             if tmpTestArray.fitness < gBestArray.fitness:
@@ -162,8 +162,8 @@ def SimulatedAnnealing(distanceMatrix, temperature):  # 要把 workMatrix & 溫�
             ## 若 r < movePossibility
             if r < movePossibility: # 若隨機變數r < 移動機率 movePossibility
                 testArray = tmpTestArray # 就move粒子，讓新的取代舊的
-                if iterationNum % 3 == 0:
-                    temperature = SlowCooling(temperature, iterationNum)  # 每個iteration就降溫一次
+                # if iterationNum % 3 == 0:
+                temperature = SlowCooling(temperature, iterationNum)  # 每個iteration就降溫一次
                 print(f"第{iterationNum}代，array= {testArray.array},PrintArray= {testArray.printArray}, fitness= {testArray.fitness}, temperature= {temperature.temp:.2f} ")
 
                 ### 若tmpTest > gBest 就要把索引值存到 gBestChangeIndexList
@@ -172,13 +172,13 @@ def SimulatedAnnealing(distanceMatrix, temperature):  # 要把 workMatrix & 溫�
                     gBestChangeIndexList.append(iterationNum)  # 紀錄哪一個iteration有變得更好
             ## 若 r > movePossibility: #就降溫而已
             else:
-                if iterationNum % 3 == 0:
-                    temperature = SlowCooling(temperature, iterationNum)  # 每個iteration就降溫一次
+                # if iterationNum % 3 == 0:
+                temperature = SlowCooling(temperature, iterationNum)  # 每個iteration就降溫一次
                 print(f"第{iterationNum}代，array= {testArray.array},PrintArray= {testArray.printArray}, fitness= {testArray.fitness}, temperature= {temperature.temp:.2f} ")
 
         else: #不移動粒子，就只做改變溫度
-            if iterationNum % 3 == 0:
-                temperature = SlowCooling(temperature, iterationNum)  # 每個iteration就降溫一次
+            # if iterationNum % 3 == 0:
+            temperature = SlowCooling(temperature, iterationNum)  # 每個iteration就降溫一次
             print(f"第{iterationNum}代，array= {testArray.array},PrintArray= {testArray.printArray}, fitness= {testArray.fitness}, temperature= {temperature.temp:.2f} ")
 
         testArrayList.append(testArray)
@@ -210,7 +210,7 @@ TestArray = TestSolution([1, 3, 2, 4, 1], [1, 3, 2, 4, 1])
 print("M11105102")
 print("Jing's SA_assignment")
 initialtemp = 30000
-tempMin = 0
+tempMin = 0.02
 temperature = Temperature(initialtemp, tempMin)  ### 創建溫度
 print(f"初始溫度temp={temperature.initialtemp}\t低溫限制tempMin={temperature.tempMin}")  ### 印出 溫度設定
 print()
