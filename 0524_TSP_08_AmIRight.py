@@ -209,7 +209,7 @@ TestArray = TestSolution([1, 3, 2, 4, 1], [1, 3, 2, 4, 1])
 
 print("M11105102")
 print("Jing's SA_assignment")
-initialtemp = 30000
+initialtemp = 100000
 tempMin = 0.02
 temperature = Temperature(initialtemp, tempMin)  ### 創建溫度
 print(f"初始溫度temp={temperature.initialtemp}\t低溫限制tempMin={temperature.tempMin}")  ### 印出 溫度設定
