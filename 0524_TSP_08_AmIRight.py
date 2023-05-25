@@ -210,7 +210,7 @@ TestArray = TestSolution([1, 3, 2, 4, 1], [1, 3, 2, 4, 1])
 print("M11105102")
 print("Jing's SA_assignment")
 initialtemp = 100000
-tempMin = 0.02
+tempMin = 0.01
 temperature = Temperature(initialtemp, tempMin)  ### 創建溫度
 print(f"初始溫度temp={temperature.initialtemp}\t低溫限制tempMin={temperature.tempMin}")  ### 印出 溫度設定
 print()
@@ -246,6 +246,12 @@ for i in gBestList:
 print(f"初始溫度temp={temperature.initialtemp}\t低溫限制tempMin={temperature.tempMin}") ### 印出 溫度設定Z
 print(f"總共執行了 {iterationNum} 代")
 print(f"final_出現在第 {gBestChangeIndexList[-1]} 代, final_gBest = {gBestList[-1].printArray}, final_gBest_fitness= {gBestListFitness[-1]}")
+
+### 把答案轉型成中文 ###
+mapping = {1:"台科",2:"中正紀念堂",3:"故宮博物院",4:"木柵動物園",5:"九份老街",6:"陽明山擎天崗",7:"淡水漁人碼頭",8:"野柳女王頭",9:"富貴角燈塔",10:"平溪天燈","gas station_1":"G台灣中油淡水站","gas station_2":"G台灣中油大直站","gas station_3":"G台灣中油成功一路(基隆)"}
+newarray = [mapping[element] for element in gBestList[-1].printArray]
+print(newarray)
+
 
 # end = time.process_time()
 
