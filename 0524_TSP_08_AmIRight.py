@@ -52,11 +52,11 @@ def SlowCooling(temperature, iterationNum):  # 降溫方法
 
 ## 設定 如何找到gas station method
 def findGasStation(current_city, next_city, gasMatrix):
-    distance = 0
-    current_city_to_min_gas = np.min(gasMatrix[current_city])
-    min_gas_index = np.argmin(gasMatrix[current_city])
+    distance = 0 #this distnace is to record current_city to gas station and to next_city
+    current_city_to_min_gas = np.min(gasMatrix[current_city]) #find closest distance in gasMatrix [current_city] row
+    min_gas_index = np.argmin(gasMatrix[current_city]) #find the index
     gas_Station_num = min_gas_index + 1
-    gas_to_next_city = gasMatrix[next_city][min_gas_index]
+    gas_to_next_city = gasMatrix[next_city][min_gas_index] # next_city row * closest index
     distance += current_city_to_min_gas
     distance += gas_to_next_city
     return distance, gas_Station_num , gas_to_next_city
@@ -69,25 +69,25 @@ def fitnessFunction(distanceMatrix, solutionArray, printArray):  # 計算fitness
     waylist = [x - 1 for x in solutionArray]
     for i in range(len(waylist)):
         current_city = waylist[i]
-        if i == len(waylist) - 1:  # 若跑到最後一個點了
-            break
+        if i == len(waylist) - 1:  # if run to last one
+            break # break the for loop
         next_city = waylist[i + 1]
-        if fillUp_distance >= 159:  # 先判斷前一個distance是不是超過 fill_up distance
+        if fillUp_distance >= 159:  #if fillUP_distance greater than 159 , doing findGasStation method
             gas_distance, gasStationNum, gas_to_next_city = findGasStation(current_city, next_city, gasMatrix)
             total_distance += gas_distance
-            fillUp_distance = gas_to_next_city
-            printArray.insert(i + 1, f"gas station_{gasStationNum}")
-            continue
+            fillUp_distance = gas_to_next_city #fillUP_distnace will equal gas station to next_city
+            printArray.insert(i + 1, f"gas station_{gasStationNum}") #insert gas station num to printArray
+            continue # forced into next loop
         total_distance += distanceMatrix[current_city][next_city]
         fillUp_distance += distanceMatrix[current_city][next_city]
     return total_distance
 
 
 ## 找到新的解
-def getNewArray(distanceMatrix):  # 找到一個新的解
-    distanceMatrixRowNum = distanceMatrix.shape[0]
+def getNewArray(distanceMatrix):  # get an initial solution array method
+    distanceMatrixRowNum = distanceMatrix.shape[0] # read distanceMatrix to get row num
     array = []
-    for i in range(distanceMatrixRowNum):  # 若這個matrix是3*3 num==3, range(3)= [0,1,2]
+    for i in range(distanceMatrixRowNum):  # if this matrix is 3*3, num==3, range(3)=[0,1,2] # 若這個matrix是3*3 num==3, range(3)= [0,1,2]
         array.append(i)  # [0,1,2]依序插入到array內
     array = array[1:]  # 把第一個值，也就是0刪掉 #因為我們的頭尾規定都是 0，所以先把第一位數拿掉
     random.shuffle(array)  # 打亂這個array #打亂這裡面的排列
