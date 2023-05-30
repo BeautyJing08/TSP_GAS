@@ -15,16 +15,16 @@ distanceMatrix = np.array([[0, 4, 13, 8, 40, 27, 30, 39, 61, 26],
                            [61, 43, 39, 57, 55, 37, 23, 26, 0, 58],
                            [26, 30, 35, 22, 29, 49, 57, 37, 58, 0]])
 
-gasMatrix = np.array([[25,11,32],
-                      [21,9,31],
-                      [19,3,26],
-                      [31,18,28],
-                      [53,35,16],
-                      [24,17,40],
-                      [5,23,47],
-                      [44,34,15],
-                      [21,41,37],
-                      [53,32,20]])
+gasMatrix = np.array([[25, 11, 32],
+                      [21, 9, 31],
+                      [19, 3, 26],
+                      [31, 18, 28],
+                      [53, 35, 16],
+                      [24, 17, 40],
+                      [5, 23, 47],
+                      [44, 34, 15],
+                      [21, 41, 37],
+                      [53, 32, 20]])
 
 
 ### create solution Class
@@ -42,7 +42,9 @@ class Temperature():
         self.temp = initialtemp  # 溫度會 == 初始溫度
         self.tempMin = tempMin
 
+
 FireReductionRadio = 0.9999
+
 
 ## setting slow cooling method
 def SlowCooling(temperature, iterationNum):  # 降溫方法
@@ -53,14 +55,14 @@ def SlowCooling(temperature, iterationNum):  # 降溫方法
 
 ## 設定 如何找到gas station method
 def findGasStation(current_city, next_city, gasMatrix):
-    distance = 0 #this distnace is to record current_city to gas station and to next_city
-    current_city_to_min_gas = np.min(gasMatrix[current_city]) #find closest distance in gasMatrix [current_city] row
-    min_gas_index = np.argmin(gasMatrix[current_city]) #find the index
+    distance = 0  # this distnace is to record current_city to gas station and to next_city
+    current_city_to_min_gas = np.min(gasMatrix[current_city])  # find closest distance in gasMatrix [current_city] row
+    min_gas_index = np.argmin(gasMatrix[current_city])  # find the index
     gas_Station_num = min_gas_index + 1
-    gas_to_next_city = gasMatrix[next_city][min_gas_index] # next_city row * closest index
+    gas_to_next_city = gasMatrix[next_city][min_gas_index]  # next_city row * closest index
     distance += current_city_to_min_gas
     distance += gas_to_next_city
-    return distance, gas_Station_num , gas_to_next_city
+    return distance, gas_Station_num, gas_to_next_city
 
 
 ## 計算fitness method
@@ -71,14 +73,14 @@ def fitnessFunction(distanceMatrix, solutionArray, printArray):  # 計算fitness
     for i in range(len(waylist)):
         current_city = waylist[i]
         if i == len(waylist) - 1:  # if run to last one
-            break # break the for loop
+            break  # break the for loop
         next_city = waylist[i + 1]
-        if fillUp_distance >= 159:  #if fillUP_distance greater than 159 , doing findGasStation method
+        if fillUp_distance >= 159:  # if fillUP_distance greater than 159 , doing findGasStation method
             gas_distance, gasStationNum, gas_to_next_city = findGasStation(current_city, next_city, gasMatrix)
             total_distance += gas_distance
-            fillUp_distance = gas_to_next_city #fillUP_distnace will equal gas station to next_city
-            printArray.insert(i + 1, f"gas station_{gasStationNum}") #insert gas station num to printArray
-            continue # forced into next loop
+            fillUp_distance = gas_to_next_city  # fillUP_distnace will equal gas station to next_city
+            printArray.insert(i + 1, f"gas station_{gasStationNum}")  # insert gas station num to printArray
+            continue  # forced into next loop
         total_distance += distanceMatrix[current_city][next_city]
         fillUp_distance += distanceMatrix[current_city][next_city]
     return total_distance
@@ -86,9 +88,10 @@ def fitnessFunction(distanceMatrix, solutionArray, printArray):  # 計算fitness
 
 ## 找到新的解
 def getNewArray(distanceMatrix):  # get an initial solution array method
-    distanceMatrixRowNum = distanceMatrix.shape[0] # read distanceMatrix to get row num
+    distanceMatrixRowNum = distanceMatrix.shape[0]  # read distanceMatrix to get row num
     array = []
-    for i in range(distanceMatrixRowNum):  # if this matrix is 3*3, num==3, range(3)=[0,1,2] # 若這個matrix是3*3 num==3, range(3)= [0,1,2,3]
+    for i in range(
+            distanceMatrixRowNum):  # if this matrix is 3*3, num==3, range(3)=[0,1,2] # 若這個matrix是3*3 num==3, range(3)= [0,1,2,3]
         array.append(i)  # [0,1,2,3]insert to array one by one
     array = array[1:]  # delete array[0]===> [0,1,2,3]--->[1,2,3]
     random.shuffle(array)  # shuffle array ===> [1,2,3]--->[3,2,1]
@@ -99,14 +102,14 @@ def getNewArray(distanceMatrix):  # get an initial solution array method
 
 
 ## 找到隔壁的解
-def getNeighborArray(array): # get neighbor array method
+def getNeighborArray(array):  # get neighbor array method
     newArray = array.copy()
     newArray = [x - 1 for x in newArray]  # make new array every element subtract one ===> if [1,2,3]--->[0,1,2]
     newArray = newArray[1:]  # delete array[0]
     newArray = newArray[:-1]  # delete array last element
     pos1 = random.randint(0, len(newArray) - 1)  # random select one element
     pos2 = random.randint(0, len(newArray) - 1)  # random select one element
-    if pos1 == pos2:  #if pos1 == pos2, then newArray will not update, so redo getNeighborArray method
+    if pos1 == pos2:  # if pos1 == pos2, then newArray will not update, so redo getNeighborArray method
         return getNeighborArray(array)  # redo
     newArray[pos1], newArray[pos2] = newArray[pos2], newArray[pos1]  # change these two elements
     newArray.insert(0, 0)  # insert 0 to array [0]
@@ -119,34 +122,35 @@ def getNeighborArray(array): # get neighbor array method
 ######## ## 創建 退火演算法的 method
 
 def SimulatedAnnealing(distanceMatrix, temperature):  # 要把 workMatrix & 溫度丟進去
-    iterationNum = 0  # 從第0代開始
+    iterationNum = 0  # from 0 iteration
     testArrayList = []
-    gBestList = []  # 有更好的gBest時，就存進來
-    gBestChangeIndexList = []  # 這是索引gBest更動時的位置 ((後續可以丟到陣列中拿到fitness值
+    gBestList = []  # if have better gBest, record it
+    gBestChangeIndexList = []  # it's the index for searching gBest iteration num -> can put it to array get fitness
 
-    #### 初代解 ####
-    initArray = getNewArray(distanceMatrix)
-    initPrintArray = initArray.copy()
+    #### 初代解 #### #initial solution
+    initArray = getNewArray(distanceMatrix)  # get initial array
+    initPrintArray = initArray.copy()  # copy it to PrintArray
     # print(initArray)
-    testArray = TestSolution(initArray, initPrintArray)
+    testArray = TestSolution(initArray, initPrintArray) # to create a testArray Class element
     print(f"initArray= {initArray}, initPrintArray= {initPrintArray}")
     print(f"第{iterationNum}代，array= {testArray.array},PrintArray= {testArray.printArray}, fitness= {testArray.fitness}, temperature= {temperature.temp:.2f} ")
-    gBestArray = testArray  # 同時創造一個新的gBestArray來記錄
+    gBestArray = testArray
 
     testArrayList.append(testArray)
     gBestList.append(gBestArray)
     #### 執行後續演算 ####
-    while temperature.temp > temperature.tempMin:  ##在溫度沒有低到"低溫標準"，都繼續執行計算
+    while temperature.temp > temperature.tempMin: # when temperature reach teapMin > stop loop
         print(temperature.temp)
         iterationNum += 1
-        tmpTestArray = getNeighborArray(testArray.array)  ##創建一個tmpTestArray ((從獲得鄰近解method創建
-
+        tmpTestArray = getNeighborArray(testArray.array) # create new tmpTestArray from neighbor
+        ### first situation
         ### 第一個情況，新的解比舊的解好 ### ((要找到比較小的答案))
         if tmpTestArray.fitness < testArray.fitness:
-            testArray = tmpTestArray  # 讓tmp取代test
+            testArray = tmpTestArray  # tmp replace test
             # if iterationNum % 3 == 0:
-            temperature = SlowCooling(temperature, iterationNum)  # 每個iteration就降溫一次
-            print(f"第{iterationNum}代，array= {testArray.array},PrintArray= {testArray.printArray}, fitness= {testArray.fitness}, temperature= {temperature.temp:.2f} ")
+            temperature = SlowCooling(temperature, iterationNum)  # every iteration doing slow cooling
+            print(
+                f"第{iterationNum}代，array= {testArray.array},PrintArray= {testArray.printArray}, fitness= {testArray.fitness}, temperature= {temperature.temp:.2f} ")
             ### 若tmpTest > gBest 就要把索引值存到 gBestChangeIndexList
             if tmpTestArray.fitness < gBestArray.fitness:
                 gBestArray = tmpTestArray
@@ -160,11 +164,12 @@ def SimulatedAnnealing(distanceMatrix, temperature):  # 要把 workMatrix & 溫�
             movePossibility = math.exp(-delta / temperature.temp)  # 參照公式
             # print(f"r= {r}, delta= {delta}, movePossibility= {movePossibility}")
             ## 若 r < movePossibility
-            if r < movePossibility: # 若隨機變數r < 移動機率 movePossibility
-                testArray = tmpTestArray # 就move粒子，讓新的取代舊的
+            if r < movePossibility:  # 若隨機變數r < 移動機率 movePossibility
+                testArray = tmpTestArray  # 就move粒子，讓新的取代舊的
                 # if iterationNum % 3 == 0:
                 temperature = SlowCooling(temperature, iterationNum)  # 每個iteration就降溫一次
-                print(f"第{iterationNum}代，array= {testArray.array},PrintArray= {testArray.printArray}, fitness= {testArray.fitness}, temperature= {temperature.temp:.2f} ")
+                print(
+                    f"第{iterationNum}代，array= {testArray.array},PrintArray= {testArray.printArray}, fitness= {testArray.fitness}, temperature= {temperature.temp:.2f} ")
 
                 ### 若tmpTest > gBest 就要把索引值存到 gBestChangeIndexList
                 if tmpTestArray.fitness < gBestArray.fitness:
@@ -174,35 +179,20 @@ def SimulatedAnnealing(distanceMatrix, temperature):  # 要把 workMatrix & 溫�
             else:
                 # if iterationNum % 3 == 0:
                 temperature = SlowCooling(temperature, iterationNum)  # 每個iteration就降溫一次
-                print(f"第{iterationNum}代，array= {testArray.array},PrintArray= {testArray.printArray}, fitness= {testArray.fitness}, temperature= {temperature.temp:.2f} ")
+                print(
+                    f"第{iterationNum}代，array= {testArray.array},PrintArray= {testArray.printArray}, fitness= {testArray.fitness}, temperature= {temperature.temp:.2f} ")
 
-        else: #不移動粒子，就只做改變溫度
+        else:  # 不移動粒子，就只做改變溫度
             # if iterationNum % 3 == 0:
             temperature = SlowCooling(temperature, iterationNum)  # 每個iteration就降溫一次
-            print(f"第{iterationNum}代，array= {testArray.array},PrintArray= {testArray.printArray}, fitness= {testArray.fitness}, temperature= {temperature.temp:.2f} ")
+            print(
+                f"第{iterationNum}代，array= {testArray.array},PrintArray= {testArray.printArray}, fitness= {testArray.fitness}, temperature= {temperature.temp:.2f} ")
 
         testArrayList.append(testArray)
         gBestList.append(gBestArray)
 
     print()
     return testArrayList, gBestList, gBestChangeIndexList, iterationNum
-
-
-testMatrix = np.array([[0, 5, 10, 12],
-                       [5, 0, 8, 15],
-                       [10, 8, 0, 18],
-                       [12, 15, 18, 0]])
-
-# ==============================================================================================
-
-testMatrix = np.array([[0, 5, 10, 12],
-                       [5, 0, 8, 15],
-                       [10, 8, 0, 18],
-                       [12, 15, 18, 0]])
-
-testArray = [1, 3, 2, 4, 1]
-TestArray = TestSolution([1, 3, 2, 4, 1], [1, 3, 2, 4, 1])
-
 
 # #===============================================================================
 # # 創建溫度
@@ -243,19 +233,19 @@ gBestListFitness = []
 for i in gBestList:
     gBestListFitness.append(i.fitness)
 # print(gBestListFitness)
-print(f"初始溫度temp={temperature.initialtemp}\t低溫限制tempMin={temperature.tempMin}") ### 印出 溫度設定Z
+print(f"初始溫度temp={temperature.initialtemp}\t低溫限制tempMin={temperature.tempMin}")  ### 印出 溫度設定Z
 print(f"總共執行了 {iterationNum} 代")
-print(f"final_出現在第 {gBestChangeIndexList[-1]} 代, final_gBest = {gBestList[-1].printArray}, final_gBest_fitness= {gBestListFitness[-1]}")
+print(
+    f"final_出現在第 {gBestChangeIndexList[-1]} 代, final_gBest = {gBestList[-1].printArray}, final_gBest_fitness= {gBestListFitness[-1]}")
 
 ### 把答案轉型成中文 ###
-mapping = {1:"台科",2:"中正紀念堂",3:"故宮博物院",4:"木柵動物園",5:"九份老街",6:"陽明山擎天崗",7:"淡水漁人碼頭",8:"野柳女王頭",9:"富貴角燈塔",10:"平溪天燈","gas station_1":"G台灣中油淡水站","gas station_2":"G台灣中油大直站","gas station_3":"G台灣中油成功一路(基隆)"}
+mapping = {1: "台科", 2: "中正紀念堂", 3: "故宮博物院", 4: "木柵動物園", 5: "九份老街", 6: "陽明山擎天崗",
+           7: "淡水漁人碼頭", 8: "野柳女王頭", 9: "富貴角燈塔", 10: "平溪天燈", "gas station_1": "G台灣中油淡水站",
+           "gas station_2": "G台灣中油大直站", "gas station_3": "G台灣中油成功一路(基隆)"}
 newarray = [mapping[element] for element in gBestList[-1].printArray]
 print(newarray)
 
 
-# end = time.process_time()
-
-# print(f"找到所有解的執行時間: ", (end - start))
 ################## STEP 04 繪圖 #############################
 
 plt.title("Jing_final")
@@ -272,7 +262,8 @@ for i in range(len(gBestChangeIndexList)):
     y = gBestChange_index_fitness[i]
     plt.text(x, y + 3, f"({x}, {y})", fontsize=7, ha='center', va='bottom', alpha=0.5)
 
-plt.scatter(gBestChangeIndexList, gBestChange_index_fitness, alpha=0.3, c="r" , label = "gBestChangePoint") #這是把gBestChange的點標示出來
+plt.scatter(gBestChangeIndexList, gBestChange_index_fitness, alpha=0.3, c="r",
+            label="gBestChangePoint")  # 這是把gBestChange的點標示出來
 plt.legend(loc='upper right')  # 顯示圖例 #放在圖的右下角
 
 text = f'initialtemp={temperature.initialtemp}, tempMin={temperature.tempMin}'
