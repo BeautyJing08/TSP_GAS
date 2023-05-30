@@ -275,5 +275,9 @@ plt.scatter(gBestChangeIndexList, gBestChange_index_fitness, alpha=0.3, c="r" , 
 plt.legend(loc='upper right')  # 顯示圖例 #放在圖的右下角
 
 text = f'initialtemp={temperature.initialtemp}, tempMin={temperature.tempMin}'
+text2 = f'coolingRate= 0.99'
+text3 = f'iterationNum= {iterationNum}'
 plt.text(0.98, 0.75, text, fontsize=8, ha='right', va='bottom', transform=plt.gca().transAxes)
+plt.text(0.98, 0.7, text2, fontsize=8, ha='right', va='bottom', transform=plt.gca().transAxes)
+plt.text(0.98, 0.65, text3, fontsize=8, ha='right', va='bottom', transform=plt.gca().transAxes)
 plt.show()
