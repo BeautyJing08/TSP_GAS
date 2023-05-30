@@ -42,10 +42,11 @@ class Temperature():
         self.temp = initialtemp  # 溫度會 == 初始溫度
         self.tempMin = tempMin
 
+FireReductionRadio = 0.9999
 
 ## setting slow cooling method
 def SlowCooling(temperature, iterationNum):  # 降溫方法
-    FireReductionRadio = 0.99 # 溫度下降的比例
+    # FireReductionRadio = 0.999 # 溫度下降的比例
     temperature.temp = temperature.initialtemp * (FireReductionRadio ** iterationNum)
     return temperature
 
@@ -275,7 +276,7 @@ plt.scatter(gBestChangeIndexList, gBestChange_index_fitness, alpha=0.3, c="r" , 
 plt.legend(loc='upper right')  # 顯示圖例 #放在圖的右下角
 
 text = f'initialtemp={temperature.initialtemp}, tempMin={temperature.tempMin}'
-text2 = f'coolingRate= 0.99'
+text2 = f'coolingRate= {FireReductionRadio}'
 text3 = f'iterationNum= {iterationNum}'
 plt.text(0.98, 0.75, text, fontsize=8, ha='right', va='bottom', transform=plt.gca().transAxes)
 plt.text(0.98, 0.7, text2, fontsize=8, ha='right', va='bottom', transform=plt.gca().transAxes)
