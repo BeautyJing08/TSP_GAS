@@ -43,7 +43,7 @@ class Temperature():
         self.tempMin = tempMin
 
 
-FireReductionRadio = 0.9999
+FireReductionRadio = 0.99
 
 
 ## setting slow cooling method
@@ -197,8 +197,8 @@ def SimulatedAnnealing(distanceMatrix, temperature):  # 要把 workMatrix & 溫�
 # #===============================================================================
 # # 創建溫度
 
-print("M11105102")
-print("Jing's SA_assignment")
+print("M11105102 王菁 | M11101013 何欣穎")
+print("Group07 _ TSP_GAS")
 initialtemp = 100000
 tempMin = 0.01
 temperature = Temperature(initialtemp, tempMin)  ### 創建溫度
