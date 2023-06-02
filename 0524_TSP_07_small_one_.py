@@ -1,6 +1,6 @@
 import numpy as np
 import itertools
-
+import matplotlib.pyplot as plt
 
 def getAllPermutations(array):
     permutations = list(itertools.permutations(array))
@@ -125,3 +125,31 @@ print(f"mintestArray.array= {mintestArray.array}, mintestArray.printArray= {mint
 # tmpArray = TestSolution(newArray, newPrintArray)
 # print(
 #     f"tmpArray.array= {tmpArray.array}, tmpArray.printArray= {tmpArray.printArray}, tmpArray.fitness= {tmpArray.fitness}")
+
+################## STEP 04 繪圖 #############################
+
+plt.title("Jing_final")
+iteration_ = np.arange(0, len(fitnessList), 1)
+plt.xlabel("Generation")
+plt.ylabel("Fitness,f Maximum")
+plt.plot(iteration_, fitnessList, label="Test Array")  # 這是每一個iteration的fitness走勢
+
+# plt.plot(iteration_, gBestListFitness, c="black", alpha=0.3, label="gBest Array")  # 這是gBest的fitness走勢
+
+# 這是把點位置的x軸==gBestChangeIndexList y軸==gBestChange_index_fitness 的文字描述((寫出座標位置))
+# for i in range(len(gBestChangeIndexList)):
+#     x = gBestChangeIndexList[i]
+#     y = gBestChange_index_fitness[i]
+#     plt.text(x, y + 3, f"({x}, {y})", fontsize=7, ha='center', va='bottom', alpha=0.5)
+
+# plt.scatter(gBestChangeIndexList, gBestChange_index_fitness, alpha=0.3, c="r",
+#             label="gBestChangePoint")  # 這是把gBestChange的點標示出來
+# plt.legend(loc='upper right')  # 顯示圖例 #放在圖的右下角
+
+# text = f'initialtemp={temperature.initialtemp}, tempMin={temperature.tempMin}'
+# text2 = f'coolingRate= {FireReductionRadio}'
+# text3 = f'iterationNum= {iterationNum}'
+# plt.text(0.98, 0.75, text, fontsize=8, ha='right', va='bottom', transform=plt.gca().transAxes)
+# plt.text(0.98, 0.7, text2, fontsize=8, ha='right', va='bottom', transform=plt.gca().transAxes)
+# plt.text(0.98, 0.65, text3, fontsize=8, ha='right', va='bottom', transform=plt.gca().transAxes)
+plt.show()
